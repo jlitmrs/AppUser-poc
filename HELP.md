@@ -1,5 +1,23 @@
 # Getting Started
 
+### Todo First
+First thing to do is download Maven
+* [download the latest version] (https://maven.apache.org/download.cgi)
+* Next put the jar file in a location on your local (example: c:/tools)
+* In RAD, go to Window -> Preferences ion the upper tool bar.
+* Find Maven -> Installations in the menu to the right.
+* add your Maven jar and make sure it is the default selected.
+* In the project, find the pom.xml
+* right click the file and choose "Run As" -> "maven build..."
+* In the Goals textbox, enter "clean install"
+* Press the Run button at the bottom of the dialog.
+
+
+### To Run The Project
+* Under src/main/java right click the file NextGenPocApplication.java
+* In the context menu select "Run As" -> "Java Application"
+* The application will start
+
 ### Reference Documentation
 For further reference, please consider the following sections:
 
