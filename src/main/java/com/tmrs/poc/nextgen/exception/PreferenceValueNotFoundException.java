@@ -2,9 +2,11 @@ package com.tmrs.poc.nextgen.exception;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
 @Builder
+@EqualsAndHashCode(callSuper = false)
 public class PreferenceValueNotFoundException extends RuntimeException {
 	
 	/**
@@ -20,7 +22,6 @@ public class PreferenceValueNotFoundException extends RuntimeException {
 	public PreferenceValueNotFoundException(String key) {
 		super("PreferenceValueLookup key["+key+"] does not exist.");
 		this.key = key;
-		this.value = value;
 	}
 	
 	

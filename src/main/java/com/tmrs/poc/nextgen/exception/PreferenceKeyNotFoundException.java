@@ -2,9 +2,11 @@ package com.tmrs.poc.nextgen.exception;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
 @Builder
+@EqualsAndHashCode(callSuper = false)
 public class PreferenceKeyNotFoundException extends RuntimeException {
 
 	
