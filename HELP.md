@@ -17,6 +17,7 @@ First thing to do is download Maven
 * Under src/main/java right click the file NextGenPocApplication.java
 * In the context menu select "Run As" -> "Java Application"
 * The application will start
+* ***(NOTE: each time you run the application you will need to delete the contents under the data/ directory)***
 
 ### Reference Documentation
 For further reference, please consider the following sections:
