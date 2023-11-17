@@ -104,34 +104,32 @@ CREATE TABLE application_history (
 	FOREIGN KEY (by_user) REFERENCES next_gen_usr(user_name)
 );
 
-DROP TABLE IF EXISTS task_status;
-CREATE TABLE task_status (
-	status_id INT AUTO_INCREMENT,
-	status_name VARCHAR(16) NOT NULL,
-	status_value INT,
-	PRIMARY KEY (status_id)
-);
-
-DROP TABLE IF EXISTS task_priority;
-CREATE TABLE task_priority (
-	priority_id INT AUTO_INCREMENT,
-	priority_name VARCHAR(16) NOT NULL,
-	priority_value INT,
-	PRIMARY KEY (priority_id)
-);
-
 DROP TABLE IF EXISTS task_list;
 CREATE TABLE task_list (
 	task_id INT AUTO_INCREMENT,
-	status_id INT NOT NULL,
-	task_name VARCHAR(80) NOT NULL,
+	status VARCHAR(12) NOT NULL DEFAULT 'CREATED',
+	task_name VARCHAR(120) NOT NULL,
 	due_date DATETIME NOT NULL,
 	created_by VARCHAR(16) NOT NULL,
 	task_owner VARCHAR(16),
 	date_completed DATETIME,
-	priority INT DEFAULT 1,
+	priority VARCHAR(10) NOT NULL DEFAULT 'NONE',
 	active BOOLEAN DEFAULT TRUE,
-	PRIMARY KEY(task_id),
-	FOREIGN KEY (status_id) REFERENCES task_status(status_id),
-	FOREIGN KEY (priority) REFERENCES task_priority(priority_id)
+	PRIMARY KEY(task_id)
 );
+
+DROP TABLE IF EXISTS application_history;
+CREATE TABLE applicatrion_history(
+	history_id INT AUTO_INCREMENT,
+	table_name VARCHAR(60),
+	record_id INT NOT NULL,
+	column_name VARCHAR(60),
+	event_type VARCHAR(10) NOT NULL,
+	old_value VARCHAR(256),
+	new_value VARCHAR(256),
+	change_user VARCHAR(16) NOT NULL,
+	change_date TIMESTAMP NIOT NULL DEFAULT NOW(),
+	PRIMARY KEY(history_id)
+);
+
+-- event types are: CREATE, UPDATE, DELETE, LOGIN

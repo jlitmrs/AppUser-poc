@@ -131,19 +131,6 @@ INSERT INTO role_permission (role_id, permission_id) VALUES (1,25);
 INSERT INTO role_permission (role_id, permission_id) VALUES (1,26);
 INSERT INTO role_permission (role_id, permission_id) VALUES (1,27);
 
-INSERT INTO task_status (status_name, status_value) VALUES ('CREATED', 0);
-INSERT INTO task_status (status_name, status_value) VALUES ('STARTED', 1);
-INSERT INTO task_status (status_name, status_value) VALUES ('PAUSED', 2);
-INSERT INTO task_status (status_name, status_value) VALUES ('IN-PROGRESS', 3);
-INSERT INTO task_status (status_name, status_value) VALUES ('COMPLETED', 4);
-INSERT INTO task_status (status_name, status_value) VALUES ('DEACTIVATED', 5);
-
-INSERT INTO task_priority (priority_name, priority_value) VALUES ('NONE', 0);
-INSERT INTO task_priority (priority_name, priority_value) VALUES ('LOW', 1);
-INSERT INTO task_priority (priority_name, priority_value) VALUES ('MEDIUM', 2);
-INSERT INTO task_priority (priority_name, priority_value) VALUES ('HIGH', 3);
-INSERT INTO task_priority (priority_name, priority_value) VALUES ('IMMEDIATE', 4);
-
 INSERT INTO task_list (status_id, task_name, due_date, date_completed, created_by, task_owner, priority) VALUES(4, 'Create Task List Feauture', '2023-10-30', '2023-10-01', 'nextgenAdmin', 'nextgenAdmin', 3);
 
 INSERT INTO application_history (table_name, history_type, change_type, new_value, by_user) VALUES ('application_history', 'TABLE', 'CREATED', 'application_history', 'nextgenAdmin');
