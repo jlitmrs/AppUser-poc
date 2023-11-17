@@ -55,18 +55,18 @@ To view the Spring Boot actuator monitoring
 
 ### H2 Database
 
-[h2-console](http://localhost:8080/api/h2-console/)
-username = nextgen_user | 
-password = tmrs_next_gen
+* [h2-console](http://localhost:8080/api/h2-console/)
+* username = nextgen_user | 
+* password = tmrs_next_gen
 
-### Login infor for seed users
-User [ nextgenAdmin ] with password [ TMRS@dm1n ] : [ 6EHcy36TapgXHnN6fM7cjg== ] key [ I@mTh3W0rld ] salt [ salt_of_the_earth ] vi [ 0192837465564738 ]
-User [ lweyrich ] with password [ I@mTh3Myth! ] : [ ktHO4WqlLQ612S7xKkFysA== ] key [ I@mTh3W0rld ] salt [ salt_of_the_earth ]vi [ 0192837465564738 ]
-User [ testUserOne ] with password [ T3st1User! ] : [ uYMc2eDt+W16mZdUxf+x1g== ] key [ I@mTh3W0rld ] salt [ salt_of_the_earth ]vi [ 0192837465564738 ]
-Database User [ nextgen_user ] with password [ tmrs_next_gen ] : [ A0GZ7vAZVGQFxlcIlwO9Wg== ] key [ next_gen_database ] salt [ salt_of_the_earth ] vi [ 8164093857836501 ]
+### Login info for seed users
+* User [ nextgenAdmin ] with password [ TMRS@dm1n ] : [ 6EHcy36TapgXHnN6fM7cjg== ] key [ I@mTh3W0rld ] salt [ salt_of_the_earth ] vi [ 0192837465564738 ]
+* User [ lweyrich ] with password [ I@mTh3Myth! ] : [ ktHO4WqlLQ612S7xKkFysA== ] key [ I@mTh3W0rld ] salt [ salt_of_the_earth ]vi [ 0192837465564738 ]
+* User [ testUserOne ] with password [ T3st1User! ] : [ uYMc2eDt+W16mZdUxf+x1g== ] key [ I@mTh3W0rld ] salt [ salt_of_the_earth ]vi [ 0192837465564738 ]
+* Database User [ nextgen_user ] with password [ tmrs_next_gen ] : [ A0GZ7vAZVGQFxlcIlwO9Wg== ] key [ next_gen_database ] salt [ salt_of_the_earth ] vi [ 8164093857836501 ]
 
 ### Social Security Numbers
-SSN [ 000-00-0000 ] encrypted [ ZtDk2BGPPv7/ECNw/Ru+IA== ] key [ I@mTh3W0rld ] salt [ salt_of_the_earth ] vi [ 0192837465564738 ]
-SSN [ 666-66-6666 ] encrypted [ yLScNWvoxrv7UNAMUCGUHA== ] key [ I@mTh3W0rld ] salt [ salt_of_the_earth ] vi [ 0192837465564738 ]
-SSN [ 333-33-3333 ] encrypted [ pG7P4G6CiUOcMPc8J603LA== ] key [ I@mTh3W0rld ] salt [ salt_of_the_earth ] vi [ 0192837465564738 ]
+* SSN [ 000-00-0000 ] encrypted [ ZtDk2BGPPv7/ECNw/Ru+IA== ] key [ I@mTh3W0rld ] salt [ salt_of_the_earth ] vi [ 0192837465564738 ]
+* SSN [ 666-66-6666 ] encrypted [ yLScNWvoxrv7UNAMUCGUHA== ] key [ I@mTh3W0rld ] salt [ salt_of_the_earth ] vi [ 0192837465564738 ]
+* SSN [ 333-33-3333 ] encrypted [ pG7P4G6CiUOcMPc8J603LA== ] key [ I@mTh3W0rld ] salt [ salt_of_the_earth ] vi [ 0192837465564738 ]
 
