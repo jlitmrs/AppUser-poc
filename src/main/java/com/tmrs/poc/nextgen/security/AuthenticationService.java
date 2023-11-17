@@ -4,11 +4,11 @@ package com.tmrs.poc.nextgen.security;
 //import org.springframework.security.core.Authentication;
 //import org.springframework.security.core.authority.AuthorityUtils;
 
-import jakarta.servlet.http.HttpServletRequest;
+//import jakarta.servlet.http.HttpServletRequest;
 
 public class AuthenticationService {
-	private static final String AUTH_TOKEN_HEADER_NAME = "X-API-KEY";
-    private static final String AUTH_TOKEN = "Baeldung";
+	public static final String AUTH_TOKEN_HEADER_NAME = "X-API-KEY";
+    public static final String AUTH_TOKEN = "Baeldung";
 
 //    public static Authentication getAuthentication(HttpServletRequest request) {
 //        String apiKey = request.getHeader(AUTH_TOKEN_HEADER_NAME);

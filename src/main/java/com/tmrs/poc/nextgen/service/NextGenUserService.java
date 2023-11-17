@@ -1,5 +1,6 @@
 package com.tmrs.poc.nextgen.service;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -28,6 +29,8 @@ import com.tmrs.poc.nextgen.jpa.repository.CustomNextGenUserRepositoryImpl;
 import com.tmrs.poc.nextgen.jpa.repository.NextGenUserRepository;
 import com.tmrs.poc.nextgen.jpa.repository.SecurityRoleRepository;
 import com.tmrs.poc.nextgen.model.NextGenUserCreateModel;
+import com.tmrs.poc.nextgen.model.NextGenUserModel;
+import com.tmrs.poc.nextgen.model.NextGenUserSimpleModel;
 import com.tmrs.poc.nextgen.model.NextGenUserUpdateModel;
 import com.tmrs.poc.nextgen.model.UserProfileModel;
 import com.tmrs.poc.nextgen.util.PasswordUtil;
@@ -73,14 +76,27 @@ public class NextGenUserService {
 
 	
 	
-	public List<NextGenUser> getAllUsers() {
+	public List<NextGenUserSimpleModel> getAllUsers() {
 		List<NextGenUser> entityList = nextGenUserRepository.findAll();
-		return entityList;
+		List <NextGenUserSimpleModel> modelList = new ArrayList <NextGenUserSimpleModel> (entityList.size());
+		
+		for(NextGenUser entity : entityList) {
+			modelList.add(nextGenUserConverter.toSimpleModel(entity));
+		}
+		
+		return modelList;
 	}
 	
 	
-	public List<NextGenUser> getAllActiveUsers() {
-		return nextGenUserRepository.getAllActiveUsers();
+	public List<NextGenUserSimpleModel> getAllActiveUsers() {
+		List <NextGenUser> entityList = nextGenUserRepository.getAllActiveUsers();
+		List <NextGenUserSimpleModel> modelList = new ArrayList <NextGenUserSimpleModel> (entityList.size());
+		
+		for(NextGenUser entity : entityList) {
+			modelList.add(nextGenUserConverter.toSimpleModel(entity));
+		}
+		
+		return modelList;
 	}
 	
 	
@@ -98,8 +114,8 @@ public class NextGenUserService {
 	}
 	
 	
-	public NextGenUser getUserById(Long id) {
-		return nextGenUserRepository.getUserById(id);
+	public NextGenUserModel getUserById(Long id) {
+		return nextGenUserConverter.toModel(nextGenUserRepository.getUserById(id));
 	}
 	
 	

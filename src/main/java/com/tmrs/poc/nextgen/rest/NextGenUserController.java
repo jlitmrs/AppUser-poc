@@ -24,6 +24,8 @@ import com.tmrs.poc.nextgen.exception.UserAlreadyExistException;
 import com.tmrs.poc.nextgen.exception.UserDoesNotExistException;
 import com.tmrs.poc.nextgen.jpa.entity.NextGenUser;
 import com.tmrs.poc.nextgen.model.NextGenUserCreateModel;
+import com.tmrs.poc.nextgen.model.NextGenUserModel;
+import com.tmrs.poc.nextgen.model.NextGenUserSimpleModel;
 import com.tmrs.poc.nextgen.model.NextGenUserUpdateModel;
 import com.tmrs.poc.nextgen.service.NextGenUserService;
 
@@ -59,12 +61,12 @@ public class NextGenUserController {
 	      @ApiResponse(responseCode = "404", content = { @Content(schema = @Schema(implementation = ApiError.class), mediaType = "application/json") }),
 		  @ApiResponse(responseCode = "500", content = { @Content(schema = @Schema(implementation = ApiError.class), mediaType = "application/json") }) })
 	@GetMapping("/{id}")
-	public ResponseEntity<NextGenUser> getNextGenUser(@PathVariable(name="id", required=true) Long id) {
+	public ResponseEntity<NextGenUserModel> getNextGenUser(@PathVariable(name="id", required=true) Long id) {
 		logger.info("GET request for id["+id+"]");
-		NextGenUser user = nextGenUserService.getUserById(id);
+		NextGenUserModel user = nextGenUserService.getUserById(id);
 		if(user != null) {
 			logger.info("User "+user.getUserName()+" for id["+id+"] found.");
-			return new ResponseEntity<NextGenUser>(user, HttpStatus.FOUND);
+			return new ResponseEntity<NextGenUserModel>(user, HttpStatus.FOUND);
 		} else {
 			logger.info("User for id["+id+"] was not found.");
 			throw new UserDoesNotExistException("User not found", null, id);
@@ -104,10 +106,10 @@ public class NextGenUserController {
 	      @ApiResponse(responseCode = "400", content = { @Content(schema = @Schema(implementation = ApiError.class), mediaType = "application/json") }),
 		  @ApiResponse(responseCode = "500", content = { @Content(schema = @Schema(implementation = ApiError.class), mediaType = "application/json") }) })
 	@GetMapping("/all")
-	public ResponseEntity<List<NextGenUser>> getAllUsers() {
-		List<NextGenUser> users = nextGenUserService.getAllUsers();
+	public ResponseEntity<List<NextGenUserSimpleModel>> getAllUsers() {
+		List<NextGenUserSimpleModel> users = nextGenUserService.getAllUsers();
 		logger.info("GET request for all users. Found["+users.size()+"]");
-		return new ResponseEntity<List<NextGenUser>>(users, HttpStatus.OK);
+		return new ResponseEntity<List<NextGenUserSimpleModel>>(users, HttpStatus.OK);
 	}
 	
 	 
@@ -119,10 +121,10 @@ public class NextGenUserController {
 	      @ApiResponse(responseCode = "400", content = { @Content(schema = @Schema(implementation = ApiError.class), mediaType = "application/json") }),
 		  @ApiResponse(responseCode = "500", content = { @Content(schema = @Schema(implementation = ApiError.class), mediaType = "application/json") }) })
 	@GetMapping("/all-active")
-	public ResponseEntity<List<NextGenUser>> getAllActiveUsers() {
-		List<NextGenUser> users = nextGenUserService.getAllActiveUsers();
+	public ResponseEntity<List<NextGenUserSimpleModel>> getAllActiveUsers() {
+		List<NextGenUserSimpleModel> users = nextGenUserService.getAllActiveUsers();
 		logger.info("GET request for all users. Found["+users.size()+"]");
-		return new ResponseEntity<List<NextGenUser>>(users, HttpStatus.OK);
+		return new ResponseEntity<List<NextGenUserSimpleModel>>(users, HttpStatus.OK);
 	}
 	
 	 
