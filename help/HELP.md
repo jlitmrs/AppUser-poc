@@ -1,5 +1,10 @@
 # Getting Started
 
+### HELP
+* [general help](http://localhost:8080/api/help)
+* [license](http://localhost:8080/api/help/license)
+* [survey](http://localhost:8080/api/help/survey)
+
 ### Todo First
 First thing to do is download Maven
 * [download the latest version](https://maven.apache.org/download.cgi)
@@ -56,7 +61,7 @@ To view the Spring Boot actuator monitoring
 ### H2 Database
 
 * [h2-console](http://localhost:8080/api/h2-console/)
-* username = nextgen_user | 
+* username = app_user
 * password = tmrs_next_gen
 
 ### Login info for seed users

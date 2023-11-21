@@ -36,7 +36,7 @@
 		</Root>
 
 		<!-- LOG "tmrs_poc" at TRACE level -->
-		<Logger name="com.sos.poc" level="trace">
+		<Logger name="com.tmrs.poc" level="trace">
 			<appender-ref ref="RollingFile" />
 			<appender-ref ref="Console" />
 		</Logger>

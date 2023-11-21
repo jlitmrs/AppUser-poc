@@ -17,15 +17,15 @@ INSERT INTO preference_key_lookup (preference_key, default_value, data_type, des
 INSERT INTO preference_key_lookup (preference_key, default_value, data_type, is_custom_value, description) VALUES ('application-width', '800px', 'Integer', 'true', 'Default application width for the application.  defaul-value is 800px');
 
 
-INSERT INTO next_gen_usr (user_name, pw_hash) VALUES ('nextgenAdmin', '6EHcy36TapgXHnN6fM7cjg==');
+INSERT INTO app_usr (user_name, pw_hash) VALUES ('UserAdmin', '6EHcy36TapgXHnN6fM7cjg==');
 INSERT INTO User_profile (user_id, first_name, last_name, birthdate, email, ssn) VALUES (1, 'TMRS','Administrator','2000-1-1','admin@tmrs.com', 'ZtDk2BGPPv7/ECNw/Ru+IA==');
 INSERT INTO user_preference (user_id, preference_key, preference_value, data_type, is_custom_value) VALUES (1,'default-theme','LIGHT', 'String', 'false'),(1,'show-name','false', 'Boolean', 'false'),(1,'show-id','false', 'Boolean', 'false'),(1,'show-username','false', 'Boolean', 'false'),(1,'default-font','ARIAL', 'String', 'false'),(1,'default-font-size','12', 'Integer', 'false'),(1,'application-width','800px', 'Integer', 'true');
 
-INSERT INTO next_gen_usr (user_name, pw_hash) VALUES ('lweyrich', 'ktHO4WqlLQ612S7xKkFysA==');
+INSERT INTO app_usr (user_name, pw_hash) VALUES ('lweyrich', 'ktHO4WqlLQ612S7xKkFysA==');
 INSERT INTO User_profile (user_id, first_name, last_name, birthdate, email, ssn) VALUES (2, 'Louis','Weyrich','1969-4-17','lweyrich@tmrs.com', 'yLScNWvoxrv7UNAMUCGUHA==');
 INSERT INTO user_preference (user_id, preference_key, preference_value, data_type, is_custom_value) VALUES (2,'default-theme','DARK', 'String', 'false'),(2,'show-name','false', 'Boolean', 'false'),(2,'show-id','false', 'Boolean', 'true'),(2,'show-username','false', 'Boolean', 'false'),(2,'default-font','ARIAL', 'String', 'false'),(2,'default-font-size','12', 'Integer', 'false'),(2,'application-width','550px', 'Integer', 'true');
 
-INSERT INTO next_gen_usr (user_name, pw_hash, active) VALUES ('testUserOne', 'uYMc2eDt+W16mZdUxf+x1g==', true);
+INSERT INTO app_usr (user_name, pw_hash, active) VALUES ('testUserOne', 'uYMc2eDt+W16mZdUxf+x1g==', true);
 INSERT INTO User_profile (user_id, first_name, last_name, birthdate, email, ssn) VALUES (3, 'Test','UserOne', null,'testuserone@tmrs.com','pG7P4G6CiUOcMPc8J603LA==');
 INSERT INTO user_preference (user_id, preference_key, preference_value, data_type, is_custom_value) VALUES (3,'default-theme','UGLY', 'String', 'false'),(3,'show-name','true', 'Boolean', 'false'),(3,'show-id','false', 'Boolean', 'false'),(3,'show-username','false', 'Boolean', 'false'),(3,'default-font','ARIAL', 'String', 'false'),(3,'default-font-size','12', 'Integer', 'false'),(3,'application-width','400px', 'Integer', 'true');
 
@@ -131,6 +131,6 @@ INSERT INTO role_permission (role_id, permission_id) VALUES (1,25);
 INSERT INTO role_permission (role_id, permission_id) VALUES (1,26);
 INSERT INTO role_permission (role_id, permission_id) VALUES (1,27);
 
-INSERT INTO task_list (status_id, task_name, due_date, date_completed, created_by, task_owner, priority) VALUES(4, 'Create Task List Feauture', '2023-10-30', '2023-10-01', 'nextgenAdmin', 'nextgenAdmin', 3);
+INSERT INTO task_list (task_name, due_date, date_completed, created_by, task_owner, priority) VALUES('Create Task List Feauture', '2023-10-30', '2023-10-01', 'AppAdmin', 'AppAdmin', 3);
 
-INSERT INTO application_history (table_name, history_type, change_type, new_value, by_user) VALUES ('application_history', 'TABLE', 'CREATED', 'application_history', 'nextgenAdmin');
+INSERT INTO application_history (table_name, record_id, change_type, new_value, change_user) VALUES ('application_history', 1, 'CREATED', 'application_history', 'AppAdmin');

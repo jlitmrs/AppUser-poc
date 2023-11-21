@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS next_gen_usr;
-CREATE TABLE next_gen_usr (
+DROP TABLE IF EXISTS app_usr;
+CREATE TABLE app_usr (
 	user_id INT AUTO_INCREMENT  PRIMARY KEY,
 	user_name VARCHAR(16) NOT NULL,
 	pw_hash VARCHAR(64) NOT NULL,
@@ -18,7 +18,7 @@ CREATE TABLE User_profile (
 	ssn VARCHAR(26),
 	PRIMARY KEY(user_id),
 	CONSTRAINT unique_email UNIQUE(email),
-	FOREIGN KEY (user_id) REFERENCES next_gen_usr(user_id)
+	FOREIGN KEY (user_id) REFERENCES app_usr(user_id)
 );
 
 
@@ -68,7 +68,7 @@ CREATE TABLE user_role (
 	user_id INT NOT NULL,
 	PRIMARY KEY(role_id, user_id),
 	FOREIGN KEY (role_id) REFERENCES security_role(role_id),
-	FOREIGN KEY (user_id) REFERENCES next_gen_usr(user_id)
+	FOREIGN KEY (user_id) REFERENCES app_usr(user_id)
 );
 
 DROP TABLE IF EXISTS security_permissions;
@@ -101,7 +101,7 @@ CREATE TABLE application_history (
 	history_date TIMESTAMP DEFAULT NOW(),
 	by_user VARCHAR(16) NOT NULL,
 	PRIMARY KEY(history_id),
-	FOREIGN KEY (by_user) REFERENCES next_gen_usr(user_name)
+	FOREIGN KEY (by_user) REFERENCES app_usr(user_name)
 );
 
 DROP TABLE IF EXISTS task_list;
@@ -119,16 +119,16 @@ CREATE TABLE task_list (
 );
 
 DROP TABLE IF EXISTS application_history;
-CREATE TABLE applicatrion_history(
+CREATE TABLE application_history(
 	history_id INT AUTO_INCREMENT,
 	table_name VARCHAR(60),
-	record_id INT NOT NULL,
 	column_name VARCHAR(60),
-	event_type VARCHAR(10) NOT NULL,
+	record_id INT NOT NULL,
+	change_type VARCHAR(10) NOT NULL,
 	old_value VARCHAR(256),
 	new_value VARCHAR(256),
 	change_user VARCHAR(16) NOT NULL,
-	change_date TIMESTAMP NIOT NULL DEFAULT NOW(),
+	change_date TIMESTAMP NOT NULL DEFAULT NOW(),
 	PRIMARY KEY(history_id)
 );
 

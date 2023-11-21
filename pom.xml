@@ -10,10 +10,10 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.tmrs.poc</groupId>
-	<artifactId>nextgen-poc</artifactId>
+	<artifactId>app-poc</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>nextgen-poc</name>
-	<description>Demo project for NextGen</description>
+	<description>Demo project for Spring Boot application</description>
 	<properties>
 		<java.version>20</java.version>
 		<spring-boot-version>3.1.4</spring-boot-version>
@@ -128,7 +128,12 @@
 		    <artifactId>commonmark-ext-gfm-tables</artifactId>
 		    <version>0.20.0</version>
 		</dependency>
-
+		<!-- https://mvnrepository.com/artifact/org.flywaydb/flyway-core -->
+		<dependency>
+		    <groupId>org.flywaydb</groupId>
+		    <artifactId>flyway-core</artifactId>
+	    </dependency>
+		
 	</dependencies>
 
 	<build>
@@ -151,6 +156,10 @@
 			    <configuration>
 			        <release>${java.version}</release>
 			    </configuration>
+			</plugin>
+			<plugin>
+			    <groupId>org.flywaydb</groupId>
+			    <artifactId>flyway-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
 	</build>
