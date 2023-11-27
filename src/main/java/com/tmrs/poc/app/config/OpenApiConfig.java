@@ -39,9 +39,9 @@ public class OpenApiConfig {
         License mitLicense = new License().name("MIT License").url("https://choosealicense.com/licenses/mit/");
         
         Info info = new Info()
-        		.title("TMRS NextGen POC")
+        		.title("TMRS App POC")
                 .version("1.0")
-                .description("Proof of Concept for a spring boot nextgen app.")
+                .description("Proof of Concept for a spring boot app.")
                 .license(mitLicense)
                 .contact(contact);
         

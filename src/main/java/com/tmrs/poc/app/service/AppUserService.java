@@ -1,6 +1,7 @@
 package com.tmrs.poc.app.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -21,12 +22,14 @@ import com.tmrs.poc.app.exception.FieldValueInvalidException;
 import com.tmrs.poc.app.exception.UserDoesNotExistException;
 import com.tmrs.poc.app.exception.UserNotCreatedException;
 import com.tmrs.poc.app.jpa.entity.AppUser;
+import com.tmrs.poc.app.jpa.entity.ApplicationHistory;
+import com.tmrs.poc.app.jpa.entity.ChangeType;
 import com.tmrs.poc.app.jpa.entity.PreferenceKeyLookup;
 import com.tmrs.poc.app.jpa.entity.SecurityRole;
 import com.tmrs.poc.app.jpa.entity.UserPreference;
 import com.tmrs.poc.app.jpa.entity.UserProfile;
-import com.tmrs.poc.app.jpa.repository.CustomAppUserRepositoryImpl;
 import com.tmrs.poc.app.jpa.repository.AppUserRepository;
+import com.tmrs.poc.app.jpa.repository.CustomAppUserRepositoryImpl;
 import com.tmrs.poc.app.jpa.repository.SecurityRoleRepository;
 import com.tmrs.poc.app.model.AppUserCreateModel;
 import com.tmrs.poc.app.model.AppUserModel;
@@ -72,6 +75,9 @@ public class AppUserService {
 	private PreferenceKeyLookupService prefKeyLookupService;
 	
 	@Autowired
+	private ApplicationHistoryService historyService;
+	
+	@Autowired
 	private PasswordUtil passwordUtil;
 
 	
@@ -105,6 +111,12 @@ public class AppUserService {
 			AppUser user = appUserRepository.getUserById(userId);
 			if(user.getActive() != activity) {
 				user.setActive(activity);
+				
+				//create history record for change
+				historyService.createHistoryRecord(
+					new ApplicationHistory(
+						"app_usr", "active", userId, ChangeType.UPDATE, 
+						Boolean.valueOf(!activity.booleanValue()).toString(), activity.toString(), "AdminUser"));
 			}
 			return user;
 		} else {
@@ -126,6 +138,8 @@ public class AppUserService {
 
 	public void deleteUser(Long id) {
 		appUserRepository.deleteById(id);
+		historyService.createHistoryRecord(
+			new ApplicationHistory("app_usr", null, id, ChangeType.DELETE, null, null, "AdminUser"));
 	}
 	
 	
@@ -148,7 +162,9 @@ public class AppUserService {
 		
 		user = appUserRepository.save(user);
 		
-		
+		historyService.createHistoryRecord(
+			new ApplicationHistory("app_usr", null, user.getUserId(), ChangeType.CREATE, 
+			null, null, "AdminUser"));
 		
 		Set <SecurityRole> roleSet = new HashSet<SecurityRole>();
 		
@@ -158,6 +174,9 @@ public class AppUserService {
 			
 			if(roleOption.isPresent()) {
 				roleSet.add(roleOption.get());
+				historyService.createHistoryRecord(
+						new ApplicationHistory("security_role", null, user.getUserId(), ChangeType.CREATE, 
+								roleOption.get().getRoleName(), null, "AdminUser"));
 			} else {
 				logger.info("Role ADMINISTRATOR does not exist");
 			}
@@ -168,6 +187,9 @@ public class AppUserService {
 			
 			if(roleOption.isPresent()) {
 				roleSet.add(roleOption.get());
+				historyService.createHistoryRecord(
+						new ApplicationHistory("security_role", null, user.getUserId(), ChangeType.CREATE, 
+								roleOption.get().getRoleName(), null, "AdminUser"));
 			} else {
 				logger.info("Role USER_EDITOR does not exist");
 			}
@@ -177,6 +199,9 @@ public class AppUserService {
 			Optional<SecurityRole> roleOption = securityRoleRepository.findById(3l);
 			if(roleOption.isPresent()) {
 				roleSet.add(roleOption.get());
+				historyService.createHistoryRecord(
+						new ApplicationHistory("security_role", null, user.getUserId(), ChangeType.CREATE, 
+								roleOption.get().getRoleName(), null, "AdminUser"));
 			} else {
 				logger.info("Role USER_VIEWER does not exist");
 			}
@@ -187,6 +212,9 @@ public class AppUserService {
 			
 			if(roleOption.isPresent()) {
 				roleSet.add(roleOption.get());
+				historyService.createHistoryRecord(
+						new ApplicationHistory("security_role", null, user.getUserId(), ChangeType.CREATE, 
+								roleOption.get().getRoleName(), null, "AdminUser"));
 			} else {
 				logger.info("Role APP_USER does not exist");
 			}
@@ -198,6 +226,9 @@ public class AppUserService {
 			UserProfileModel profileModel = model.getProfile();
 			UserProfile profile = userProfileService.saveProfile(user.getUserId(), profileModel);
 			user.setProfile(profile);
+			historyService.createHistoryRecord(
+					new ApplicationHistory("user_profile", null, user.getUserId(), ChangeType.CREATE, 
+							null, null, "AdminUser"));
 		}
 		
 		List<PreferenceKeyLookup> prekeyList = prefKeyLookupService.getAll();
@@ -210,6 +241,9 @@ public class AppUserService {
 			userPref.setCustom(lookup.getCustom());
 			
 			userPreferenceService.saveUserPreference(userPref);
+			historyService.createHistoryRecord(
+				new ApplicationHistory("user_preference", null, user.getUserId(), ChangeType.CREATE, 
+					lookup.getPreferenceKey(), null, "AdminUser"));
 		}
 		
 		this.appUserRepository.save(user);
@@ -231,7 +265,11 @@ public class AppUserService {
 		}
 
 		if(model.getActive() != null && !user.getActive().equals(model.getActive())) {
+			Boolean oldValue = user.getActive();
 			user.setActive(model.getActive());
+			historyService.createHistoryRecord(
+				new ApplicationHistory("app_usr", "active", user.getUserId(), ChangeType.UPDATE, 
+					model.getActive().toString(), oldValue.toString(), "AdminUser"));
 		}
 		
 		if(model.getProfile() != null) {

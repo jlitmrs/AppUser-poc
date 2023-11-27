@@ -59,7 +59,7 @@ public class AppUserControllerIntegrationTest implements TestExecutionListener, 
 		HttpEntity<String> entity = new HttpEntity<>(null, headers);
 		
 		ResponseEntity<String> response = restTemplate.exchange(
-                createURLWithPort("/api/usr/99"),
+                createURLWithPort("/api/usr/9999"),
                 HttpMethod.GET, entity, String.class);
 		
 		assertTrue(response.getStatusCode() == HttpStatus.NOT_FOUND);
