@@ -15,7 +15,7 @@
 	<name>nextgen-poc</name>
 	<description>Demo project for Spring Boot application</description>
 	<properties>
-		<java.version>20</java.version>
+		<java.version>17</java.version>
 		<spring-boot-version>3.1.4</spring-boot-version>
 		<spring-vault-config>4.0.1</spring-vault-config>
 	</properties>
