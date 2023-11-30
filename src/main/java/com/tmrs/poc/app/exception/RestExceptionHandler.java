@@ -75,7 +75,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler({UserAlreadyExistException.class})
 	@ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
 	public ResponseEntity<Object> userAlreadyExistsException(Exception ex, WebRequest request) {
-		ApiError apiError = new ApiError(HttpStatus.NOT_FOUND, "User Already Exists.", ex, ex.getMessage());
+		ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, "User Already Exists.", ex, ex.getMessage());
 		return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
 	}
 	

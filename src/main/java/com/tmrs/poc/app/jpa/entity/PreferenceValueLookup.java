@@ -22,6 +22,7 @@ import lombok.NoArgsConstructor;
 @Table(name="preference_value_lookup")
 @IdClass(PreferenceValueId.class)
 public class PreferenceValueLookup {
+	
 	@Id
 	@Column(name="preference_key", length=36, columnDefinition="VARCHAR(36)")
 	private String preferenceKey;

@@ -1,6 +1,6 @@
-DROP TABLE IF EXISTS app_usr;
+-- DROP TABLE IF EXISTS app_usr;
 CREATE TABLE app_usr (
-	user_id INT AUTO_INCREMENT  PRIMARY KEY,
+	user_id INT AUTO_INCREMENT,
 	user_name VARCHAR(16) NOT NULL,
 	pw_hash VARCHAR(64) NOT NULL,
 	active BOOLEAN DEFAULT TRUE,
@@ -8,7 +8,7 @@ CREATE TABLE app_usr (
 	CONSTRAINT unique_user_name UNIQUE(user_name)
 );
 
-DROP TABLE IF EXISTS User_profile;
+-- DROP TABLE IF EXISTS User_profile;
 CREATE TABLE User_profile (
 	user_id INT  NOT NULL,
 	first_name VARCHAR(16) NOT NULL,
@@ -22,7 +22,7 @@ CREATE TABLE User_profile (
 );
 
 
-DROP TABLE IF EXISTS preference_key_lookup;
+-- DROP TABLE IF EXISTS preference_key_lookup;
 CREATE TABLE preference_key_lookup (
 	preference_key VARCHAR(36) NOT NULL,
 	default_value VARCHAR(256) NOT NULL,
@@ -33,7 +33,7 @@ CREATE TABLE preference_key_lookup (
 	CONSTRAINT unique_pref_key UNIQUE(preference_key)
 );
 
-DROP TABLE IF EXISTS preference_value_lookup;
+-- DROP TABLE IF EXISTS preference_value_lookup;
 CREATE TABLE preference_value_lookup (
 	preference_key VARCHAR(36) NOT NULL,
 	preference_value VARCHAR NOT NULL DEFAULT '',
@@ -42,7 +42,7 @@ CREATE TABLE preference_value_lookup (
 	PRIMARY KEY (preference_key, preference_value)
 );
 
-DROP TABLE IF EXISTS user_preference;
+-- DROP TABLE IF EXISTS user_preference;
 CREATE TABLE user_preference (
 	user_id INT NOT NULL,
 	preference_key VARCHAR(36) NOT NULL,
@@ -53,7 +53,7 @@ CREATE TABLE user_preference (
 	FOREIGN KEY (preference_key) REFERENCES preference_key_lookup(preference_key)
 );
 
-DROP TABLE IF EXISTS security_role;
+-- DROP TABLE IF EXISTS security_role;
 CREATE TABLE security_role (
 	role_id INT AUTO_INCREMENT,
 	role_name VARCHAR(32) NOT NULL,
@@ -62,7 +62,7 @@ CREATE TABLE security_role (
 	CONSTRAINT unique_role_name UNIQUE(role_name)
 );
 
-DROP TABLE IF EXISTS user_role;
+-- DROP TABLE IF EXISTS user_role;
 CREATE TABLE user_role (
 	role_id INT NOT NULL,
 	user_id INT NOT NULL,
@@ -71,7 +71,7 @@ CREATE TABLE user_role (
 	FOREIGN KEY (user_id) REFERENCES app_usr(user_id)
 );
 
-DROP TABLE IF EXISTS security_permissions;
+-- DROP TABLE IF EXISTS security_permissions;
 CREATE TABLE security_permissions (
 	permission_id INT AUTO_INCREMENT,
 	permission_name VARCHAR(36) NOT NULL,
@@ -80,7 +80,7 @@ CREATE TABLE security_permissions (
 	CONSTRAINT unique_permission_name UNIQUE(permission_name)
 );
 
-DROP TABLE IF EXISTS role_permission;
+-- DROP TABLE IF EXISTS role_permission;
 CREATE TABLE role_permission (
 	role_id INT NOT NULL,
 	permission_id INT NOT NULL,
@@ -90,21 +90,7 @@ CREATE TABLE role_permission (
 );
 
 
-DROP TABLE IF EXISTS application_history;
-CREATE TABLE application_history (
-	history_id INT AUTO_INCREMENT,
-	table_name VARCHAR(60) NOT NULL,
-	history_type VARCHAR(16) NOT NULL,
-	change_type VARCHAR(10),
-	old_value VARCHAR(120),
-	new_value VARCHAR(120),
-	history_date TIMESTAMP DEFAULT NOW(),
-	by_user VARCHAR(16) NOT NULL,
-	PRIMARY KEY(history_id),
-	FOREIGN KEY (by_user) REFERENCES app_usr(user_name)
-);
-
-DROP TABLE IF EXISTS task_list;
+-- DROP TABLE IF EXISTS task_list;
 CREATE TABLE task_list (
 	task_id INT AUTO_INCREMENT,
 	status VARCHAR(12) NOT NULL DEFAULT 'CREATED',
@@ -118,7 +104,7 @@ CREATE TABLE task_list (
 	PRIMARY KEY(task_id)
 );
 
-DROP TABLE IF EXISTS application_history;
+-- DROP TABLE IF EXISTS application_history;
 CREATE TABLE application_history(
 	history_id INT AUTO_INCREMENT,
 	table_name VARCHAR(60),
@@ -128,7 +114,7 @@ CREATE TABLE application_history(
 	old_value VARCHAR(256),
 	new_value VARCHAR(256),
 	change_user VARCHAR(16) NOT NULL,
-	change_date TIMESTAMP NOT NULL DEFAULT NOW(),
+	change_date TIMESTAMP DEFAULT NOW(),
 	PRIMARY KEY(history_id)
 );
 

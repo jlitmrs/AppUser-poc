@@ -1,7 +1,6 @@
 package com.tmrs.poc.app.service;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -143,7 +142,7 @@ public class AppUserService {
 	}
 	
 	
-	public AppUser createUser(AppUserCreateModel model) {
+	public AppUserModel createUser(AppUserCreateModel model) {
 		AppUser user = appUserConverter.fromCreateModelInputoEntity(model);
 		
 		if(model.getPassword() != null) {
@@ -151,6 +150,7 @@ public class AppUserService {
 				SecretKey key = passwordUtil.getKeyFromPassword(passwordKey, salt);
 				IvParameterSpec iv = new IvParameterSpec(passwordIv.getBytes());
 				String encryptedPassword = passwordUtil.encrypt(model.getPassword(), key, iv);
+				String ssn = passwordUtil.encrypt(model.getProfile().getSsn(), key, iv);
 				user.setPasswordHash(encryptedPassword);
 			} catch (Exception e) {
 				logger.error("----  User not created  -----", e);
@@ -163,15 +163,13 @@ public class AppUserService {
 		user = appUserRepository.save(user);
 		
 		historyService.createHistoryRecord(
-			new ApplicationHistory("app_usr", null, user.getUserId(), ChangeType.CREATE, 
-			null, null, "AdminUser"));
+			new ApplicationHistory("app_usr", null, user.getUserId(), ChangeType.CREATE, user.getUserName(), null, "AdminUser"));
 		
 		Set <SecurityRole> roleSet = new HashSet<SecurityRole>();
-		
-		
+
 		if(model.getIsAdmin()) {
 			Optional<SecurityRole> roleOption = securityRoleRepository.findById(1l);
-			
+
 			if(roleOption.isPresent()) {
 				roleSet.add(roleOption.get());
 				historyService.createHistoryRecord(
@@ -223,7 +221,21 @@ public class AppUserService {
 		user.setRoles(roleSet);
 		
 		if(model.getProfile() != null) {
+
 			UserProfileModel profileModel = model.getProfile();
+			if(model.getProfile().getSsn() != null) {
+				try {
+					SecretKey key = passwordUtil.getKeyFromPassword(passwordKey, salt);
+					IvParameterSpec iv = new IvParameterSpec(passwordIv.getBytes());
+					String ssn = passwordUtil.encrypt(model.getProfile().getSsn(), key, iv);
+					profileModel.setSsn(ssn);
+				} catch (Exception e) {
+					logger.error("----  Could not encrypt SSN  -----", e);
+					throw new FieldValueInvalidException("SSN", "", "");
+				}
+			} else {
+				throw new FieldValueInvalidException("SSN", "", "");
+			}
 			UserProfile profile = userProfileService.saveProfile(user.getUserId(), profileModel);
 			user.setProfile(profile);
 			historyService.createHistoryRecord(
@@ -246,9 +258,9 @@ public class AppUserService {
 					lookup.getPreferenceKey(), null, "AdminUser"));
 		}
 		
-		this.appUserRepository.save(user);
+		user = this.appUserRepository.save(user);
 		
-		return user;
+		return appUserConverter.toModel(user);
 	}
 	
 	

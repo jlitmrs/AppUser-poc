@@ -50,6 +50,7 @@ public class AppUserController {
 	
 	@Autowired
 	private AppUserService appUserService;
+	
 
 	
 	 @Operation(
@@ -136,19 +137,19 @@ public class AppUserController {
 	      @ApiResponse(responseCode = "400", content = { @Content(schema = @Schema(implementation = ApiError.class), mediaType = "application/json") }),
 		  @ApiResponse(responseCode = "500", content = { @Content(schema = @Schema(implementation = ApiError.class), mediaType = "application/json") }) })
 	@PostMapping()
-	public ResponseEntity<AppUser> createUser(@Valid @RequestBody AppUserCreateModel model) {
+	public ResponseEntity<AppUserModel> createUser(@Valid @RequestBody AppUserCreateModel model) {
 		if(appUserService.userNameExists(model.getUserName())) {
 			logger.info("-----  User with username [ %s ] already exists.  -----".formatted(model.getUserName()));
 			throw new UserAlreadyExistException("User with user name [ %s ] already exists.".formatted(model.getUserName()), model.getUserName());
 		}
 		
-		AppUser user =  appUserService.createUser(model);
+		AppUserModel user =  appUserService.createUser(model);
 		
 		if(user != null) {
 			logger.info("-----  Creating user with username [ %s ] and ID [ %s ]  -----".formatted(user.getUserName(), user.getUserId()));
 		} else {
 			logger.info("-----  User with username [ %s ] was not created.  -----".formatted(model.getUserName()));
-			return new ResponseEntity<AppUser>(new AppUser(), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<AppUserModel>(new AppUserModel(), HttpStatus.BAD_REQUEST);
 		}		
 		
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(user.getUserId()).toUri();

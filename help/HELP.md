@@ -52,7 +52,7 @@ The following URL's are for viewing Swagger UI Rest Documentation
 ### Actuator
 To view the Spring Boot actuator monitoring
 
-* Example - http://localhost:9001/actuuator/health
+* [Health](http://localhost:9001/actuator/health)
 * [end-points](https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html)
 * [actuator](http://localhost:8080/actuator)
 * [actuator open-api](http://localhost:8080/actuator/openapi)

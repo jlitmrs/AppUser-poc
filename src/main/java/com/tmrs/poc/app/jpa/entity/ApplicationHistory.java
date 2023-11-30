@@ -42,7 +42,7 @@ public class ApplicationHistory {
 	private Long recordId;
 	
 	@Enumerated(EnumType.STRING)
-	@Column(name="change_type", length=12, columnDefinition="VARCHAR(12)")
+	@Column(name="change_type", length=12, columnDefinition="VARCHAR(8)")
 	private ChangeType changeType;
 	
 	@Column(name="old_value", length=12, columnDefinition="VARCHAR(256)")

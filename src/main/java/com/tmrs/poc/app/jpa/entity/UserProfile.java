@@ -26,7 +26,7 @@ import lombok.NoArgsConstructor;
 public class UserProfile {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	// @GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="user_id", columnDefinition="INTEGER")
 	private Long userId;
 	

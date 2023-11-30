@@ -20,7 +20,7 @@ public class ApplicationHistoryService {
 	
 	
 	public void createHistoryRecord(ApplicationHistory entity) {
-		repository.saveAndFlush(entity);
+		repository.save(entity);
 	}
 	
 	public Page<ApplicationHistory> searchHistory(HistorySearchModel model) {
