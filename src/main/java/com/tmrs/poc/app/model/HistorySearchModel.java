@@ -5,7 +5,7 @@ import java.util.Date;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import com.tmrs.poc.app.jpa.entity.ChangeType;
+import com.tmrs.poc.app.jpa.entity.enumeration.ChangeType;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

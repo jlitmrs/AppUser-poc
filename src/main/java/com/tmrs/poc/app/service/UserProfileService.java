@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tmrs.poc.app.converter.UserProfileConverter;
 import com.tmrs.poc.app.jpa.entity.ApplicationHistory;
-import com.tmrs.poc.app.jpa.entity.ChangeType;
+import com.tmrs.poc.app.jpa.entity.enumeration.ChangeType;
 import com.tmrs.poc.app.jpa.entity.UserProfile;
 import com.tmrs.poc.app.jpa.repository.UserProfileRepository;
 import com.tmrs.poc.app.model.UserProfileModel;
@@ -41,7 +41,7 @@ public class UserProfileService {
 		UserProfile profileEntity = userProfileRepository.save(converter.toEntity(profileModel));
 		
 		historyService.createHistoryRecord(
-			new ApplicationHistory("user_profile", null, profileEntity.getUserId(), ChangeType.CREATE, 
+			new ApplicationHistory("user_profile", null, profileEntity.getUserId(), id, ChangeType.CREATE,
 				null, null, "AdminUser"));
 		
 		return profileEntity;
@@ -52,22 +52,22 @@ public class UserProfileService {
 		
 		if(profileModel.getFirstName() != null && !profile.getFirstName().equals(profileModel.getFirstName())) {
 			historyService.createHistoryRecord(
-				new ApplicationHistory("user_profile", "first_name", profileModel.getUserId(), ChangeType.UPDATE, 
-						profileModel.getFirstName(), profile.getFirstName(), "AdminUser"));
+				new ApplicationHistory("user_profile", "first_name", profileModel.getUserId(), id,
+						ChangeType.UPDATE, profileModel.getFirstName(), profile.getFirstName(), "AdminUser"));
 			profile.setFirstName(profileModel.getFirstName());
 		}
 		
 		if(profileModel.getLastName() != null && !profile.getLastName().equals(profileModel.getLastName())) {
 			historyService.createHistoryRecord(
-					new ApplicationHistory("user_profile", "last_name", profileModel.getUserId(), ChangeType.UPDATE, 
-							profileModel.getLastName(), profile.getLastName(), "AdminUser"));
+					new ApplicationHistory("user_profile", "last_name", profileModel.getUserId(), id,
+							ChangeType.UPDATE, profileModel.getLastName(), profile.getLastName(), "AdminUser"));
 			profile.setLastName(profileModel.getLastName());
 		}
 		
 		if(profileModel.getEmaill() != null && profile.getEmaill().equals(profileModel.getEmaill())) {
 			historyService.createHistoryRecord(
-					new ApplicationHistory("user_profile", "email", profileModel.getUserId(), ChangeType.UPDATE, 
-							profileModel.getEmaill(), profile.getEmaill(), "AdminUser"));
+					new ApplicationHistory("user_profile", "email", profileModel.getUserId(), id,
+							ChangeType.UPDATE, profileModel.getEmaill(), profile.getEmaill(), "AdminUser"));
 			profile.setEmaill(profileModel.getEmaill());
 		}
 		
@@ -79,15 +79,15 @@ public class UserProfileService {
 			String oldDate = df.format(profile.getBirthDate());
 			
 			historyService.createHistoryRecord(
-				new ApplicationHistory("user_profile", "birthdate", profileModel.getUserId(), ChangeType.UPDATE, 
-						newDate, oldDate, "AdminUser"));
+				new ApplicationHistory("user_profile", "birthdate", profileModel.getUserId(), id,
+						ChangeType.UPDATE, newDate, oldDate, "AdminUser"));
 			
 			profile.setBirthDate(profileModel.getBirthDate());
 		}
 		
 		if(profileModel.getSsn() != null && !profile.getSsn().equals(profileModel.getSsn())) {
 			historyService.createHistoryRecord(
-				new ApplicationHistory("user_profile", "ssn", profileModel.getUserId(), ChangeType.UPDATE, 
+				new ApplicationHistory("user_profile", "ssn", profileModel.getUserId(),id, ChangeType.UPDATE,
 					profileModel.getSsn(), profile.getSsn(), "AdminUser"));
 			
 			profile.setSsn(profileModel.getSsn());

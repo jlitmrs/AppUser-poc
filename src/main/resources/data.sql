@@ -131,6 +131,4 @@ INSERT INTO role_permission (role_id, permission_id) VALUES (1,25);
 INSERT INTO role_permission (role_id, permission_id) VALUES (1,26);
 INSERT INTO role_permission (role_id, permission_id) VALUES (1,27);
 
-INSERT INTO task_list (task_name, due_date, date_completed, created_by, task_owner, priority) VALUES('Create Task List Feauture', '2023-10-30', '2023-10-01', 'AppAdmin', 'AppAdmin', 3);
-
-INSERT INTO application_history (table_name, record_id, change_type, new_value, change_user) VALUES ('application_history', 1, 'CREATED', 'application_history', 'AppAdmin');
+INSERT INTO task_list (task_name, status, due_date, date_completed, created_by, task_owner, priority) VALUES('Create Task List Feature', 'COMPLETE', '2023-10-30', '2023-10-01', 'AppAdmin', 'AppAdmin', 'NONE');

@@ -28,7 +28,7 @@ public class UserPreference {
 	private Long userId;
 	
 	@Id
-	@Column(name="preference_key", unique=true, length=36, updatable=false, columnDefinition="VARCHAR(36)")
+	@Column(name="preference_key", length=36, updatable=false, columnDefinition="VARCHAR(36)")
 	private String preferenceKey;
 	
 	@EqualsAndHashCode.Exclude

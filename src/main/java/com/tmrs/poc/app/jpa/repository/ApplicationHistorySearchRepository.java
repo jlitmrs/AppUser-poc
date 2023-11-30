@@ -5,11 +5,10 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.tmrs.poc.app.jpa.entity.ApplicationHistory;
-import com.tmrs.poc.app.jpa.entity.ChangeType;
+import com.tmrs.poc.app.jpa.entity.enumeration.ChangeType;
 import com.tmrs.poc.app.model.Page;
 
 import jakarta.persistence.EntityManager;

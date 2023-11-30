@@ -16,13 +16,13 @@ public class AppPocApplication implements ApplicationRunner{
 	private static final Logger logger = LogManager.getLogger(AppPocApplication.class);
 
 	public static void main(String[] args) {
-		logger.info("-----  NextGen Application Starting...  -----");
+		logger.info("-----  AppUser Application Starting...  -----");
 		SpringApplication.run(AppPocApplication.class, args);
 	}
 
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
-        logger.info("-----  NextGen Application started...  -----");
+        logger.info("-----  AppUser Application started...  -----");
 	}
 
 }
