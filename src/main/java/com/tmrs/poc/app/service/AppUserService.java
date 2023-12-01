@@ -22,11 +22,11 @@ import com.tmrs.poc.app.exception.UserDoesNotExistException;
 import com.tmrs.poc.app.exception.UserNotCreatedException;
 import com.tmrs.poc.app.jpa.entity.AppUser;
 import com.tmrs.poc.app.jpa.entity.ApplicationHistory;
-import com.tmrs.poc.app.jpa.entity.enumeration.ChangeType;
 import com.tmrs.poc.app.jpa.entity.PreferenceKeyLookup;
 import com.tmrs.poc.app.jpa.entity.SecurityRole;
 import com.tmrs.poc.app.jpa.entity.UserPreference;
 import com.tmrs.poc.app.jpa.entity.UserProfile;
+import com.tmrs.poc.app.jpa.entity.enumeration.ChangeType;
 import com.tmrs.poc.app.jpa.repository.AppUserRepository;
 import com.tmrs.poc.app.jpa.repository.CustomAppUserRepositoryImpl;
 import com.tmrs.poc.app.jpa.repository.SecurityRoleRepository;
@@ -150,7 +150,6 @@ public class AppUserService {
 				SecretKey key = passwordUtil.getKeyFromPassword(passwordKey, salt);
 				IvParameterSpec iv = new IvParameterSpec(passwordIv.getBytes());
 				String encryptedPassword = passwordUtil.encrypt(model.getPassword(), key, iv);
-				String ssn = passwordUtil.encrypt(model.getProfile().getSsn(), key, iv);
 				user.setPasswordHash(encryptedPassword);
 			} catch (Exception e) {
 				logger.error("----  User not created  -----", e);
