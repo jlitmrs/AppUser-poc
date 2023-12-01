@@ -19,9 +19,13 @@ First thing to do is download Maven
 
 
 ### To Run The Project
+* Under src/main/resource open application.properties
+* find the property spring.sql.init.mode=never
+* change the value from never to always
 * Under src/main/java right click the file NextGenPocApplication.java
 * In the context menu select "Run As" -> "Java Application"
 * The application will start
+* Once the application is completely started, change the value from "always" to "never" on spring.sql.init.mode.
 * ***(NOTE: each time you run the application you will need to delete the contents under the data/ directory)***
 
 ### Reference Documentation
@@ -52,11 +56,11 @@ The following URL's are for viewing Swagger UI Rest Documentation
 ### Actuator
 To view the Spring Boot actuator monitoring
 
-* [Health](http://localhost:9001/actuator/health)
+* [Health](http://127.0.0.1:9003/actuator/health)
 * [end-points](https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html)
-* [actuator](http://localhost:8080/actuator)
-* [actuator open-api](http://localhost:8080/actuator/openapi)
-* [actuator swagger-ui](http://localhost:8080/actuator/swagger-ui)
+* [actuator](http://127.0.0.1:9003/actuator)
+* [actuator open-api](http://127.0.0.1:9003/actuator/openapi)
+* [actuator swagger-ui](http://127.0.0.1:9003/actuator/swagger-ui)
 
 ### H2 Database
 
