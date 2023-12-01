@@ -162,7 +162,8 @@ public class AppUserService {
 		user = appUserRepository.save(user);
 		
 		historyService.createHistoryRecord(
-			new ApplicationHistory("app_usr", null, user.getUserId(), user.getUserId(), ChangeType.CREATE, user.getUserName(), null, "AdminUser"));
+			new ApplicationHistory("app_usr", null, user.getUserId(), user.getUserId(),
+					ChangeType.CREATE, user.getUserName(), null, "AdminUser"));
 
 		if(model.getProfile() != null) {
 

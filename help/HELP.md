@@ -56,11 +56,10 @@ The following URL's are for viewing Swagger UI Rest Documentation
 ### Actuator
 To view the Spring Boot actuator monitoring
 
+* [actuator](http://127.0.0.1:9003/actuator)
 * [Health](http://127.0.0.1:9003/actuator/health)
 * [end-points](https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html)
-* [actuator](http://127.0.0.1:9003/actuator)
-* [actuator open-api](http://127.0.0.1:9003/actuator/openapi)
-* [actuator swagger-ui](http://127.0.0.1:9003/actuator/swagger-ui)
+
 
 ### H2 Database
 
