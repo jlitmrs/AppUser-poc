@@ -11,6 +11,9 @@ import java.util.Set;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 
+import com.tmrs.poc.app.jpa.entity.ApplicationHistory;
+import com.tmrs.poc.app.jpa.entity.enumeration.ChangeType;
+import com.tmrs.poc.app.service.ApplicationHistoryService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +60,9 @@ public class LoginController {
 	
 	@Autowired
 	private PasswordUtil passwordUtil;
+
+	@Autowired
+	private ApplicationHistoryService historyService;
 	
 	@Value("${password.key}")
 	private String passwordKey;
@@ -113,7 +119,9 @@ public class LoginController {
 					prefList.stream().forEach(preference -> {
 						prefModelMap.put(preference.getPreferenceKey(), preference.getPreferenceValue());
 					});
-					
+
+					historyService.createHistoryRecord(
+							new ApplicationHistory("app_usr", null, user.getUserId(), user.getUserId(), ChangeType.LOGIN, user.getUserName(), null, "AdminUser"));
 					
 					LoginUserModel loginUser = LoginUserModel.builder()
 							.userId(user.getUserId())
