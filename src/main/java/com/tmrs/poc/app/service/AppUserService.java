@@ -9,6 +9,7 @@ import java.util.Set;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 
+import com.tmrs.poc.app.model.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,11 +31,6 @@ import com.tmrs.poc.app.jpa.entity.enumeration.ChangeType;
 import com.tmrs.poc.app.jpa.repository.AppUserRepository;
 import com.tmrs.poc.app.jpa.repository.CustomAppUserRepositoryImpl;
 import com.tmrs.poc.app.jpa.repository.SecurityRoleRepository;
-import com.tmrs.poc.app.model.AppUserCreateModel;
-import com.tmrs.poc.app.model.AppUserModel;
-import com.tmrs.poc.app.model.AppUserSimpleModel;
-import com.tmrs.poc.app.model.AppUserUpdateModel;
-import com.tmrs.poc.app.model.UserProfileModel;
 import com.tmrs.poc.app.util.PasswordUtil;
 
 @Service
@@ -136,9 +132,18 @@ public class AppUserService {
 	
 
 	public void deleteUser(Long id) {
-		appUserRepository.deleteById(id);
-		historyService.createHistoryRecord(
-			new ApplicationHistory("app_usr", null, id, id, ChangeType.DELETE, null, null, "AdminUser"));
+		if(userExists(id)) {
+			userProfileService.deleteProfile(id);
+			userPreferenceService.deletePreferenceByUserId(id);
+			AppUser user = appUserRepository.getUserById(id);
+			user.getRoles().removeAll(user.getRoles());
+			appUserRepository.deleteById(id);
+			historyService.createHistoryRecord(
+					new ApplicationHistory("app_usr", null, id, id, ChangeType.DELETE,
+							null, null, "AdminUser"));
+		} else {
+			logger.info("User with id["+id+"] was not deleted.  User id does not exist.");
+		}
 	}
 	
 	

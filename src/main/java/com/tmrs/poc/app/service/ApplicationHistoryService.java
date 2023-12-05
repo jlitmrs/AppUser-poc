@@ -9,6 +9,8 @@ import com.tmrs.poc.app.jpa.repository.ApplicationHistorySearchRepository;
 import com.tmrs.poc.app.model.HistorySearchModel;
 import com.tmrs.poc.app.model.Page;
 
+import java.util.List;
+
 @Service
 public class ApplicationHistoryService {
 
@@ -21,6 +23,10 @@ public class ApplicationHistoryService {
 	
 	public void createHistoryRecord(ApplicationHistory entity) {
 		repository.save(entity);
+	}
+
+	public List<ApplicationHistory> getAllHistory() {
+		return repository.findAll();
 	}
 	
 	public Page<ApplicationHistory> searchHistory(HistorySearchModel model) {

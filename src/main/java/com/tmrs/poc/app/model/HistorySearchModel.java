@@ -2,6 +2,7 @@ package com.tmrs.poc.app.model;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
@@ -26,7 +27,8 @@ public class HistorySearchModel {
 	private Date to;
 	private int page;
 	private int pageSize;
-	
+
+	@JsonIgnore
 	public Pageable getPageable() {
 		return PageRequest.of(page, pageSize);
 	}

@@ -24,6 +24,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import static jakarta.persistence.CascadeType.DETACH;
+import static jakarta.persistence.CascadeType.PERSIST;
+
 @Data
 @Builder
 @EqualsAndHashCode
@@ -58,7 +61,7 @@ public class AppUser {
 	@JoinColumn(name="user_id", referencedColumnName="user_id", insertable=true, updatable=true)
 	private List<UserPreference> userPreferences;
 	
-	@ManyToMany(fetch=FetchType.EAGER, targetEntity=SecurityRole.class)
+	@ManyToMany(fetch=FetchType.EAGER, targetEntity=SecurityRole.class, cascade={PERSIST, DETACH})
 	@JoinTable(name="user_role", joinColumns=@JoinColumn(name="user_id"), inverseJoinColumns=@JoinColumn(name="role_id"))
 	private Set<SecurityRole> roles;
 }

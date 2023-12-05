@@ -4,11 +4,14 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Date;
 
+import com.tmrs.poc.app.jpa.entity.AppUser;
 import com.tmrs.poc.app.model.AppUserModel;
+import com.tmrs.poc.app.service.AppUserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
@@ -35,18 +38,20 @@ public class AppUserControllerIntegrationTest implements TestExecutionListener, 
 	
 	TestRestTemplate restTemplate = new TestRestTemplate();
 	HttpHeaders headers = new HttpHeaders();
+
+	@Autowired
+	private AppUserService userService;
 	
 	private static final Logger logger = LogManager.getLogger(AppUserControllerIntegrationTest.class);
-
 	
 	@Test
 	public void testGetUserOneSuccess() 
 	{	
-		HttpEntity<String> entity = new HttpEntity<>(null, headers);
+		HttpEntity<AppUserModel> entity = new HttpEntity<>(null, headers);
 		
-		ResponseEntity<String> response = restTemplate.exchange(
+		ResponseEntity<AppUserModel> response = restTemplate.exchange(
                 createURLWithPort("/api/usr/1"),
-                HttpMethod.GET, entity, String.class);
+                HttpMethod.GET, entity, AppUserModel.class);
 		
 		assertTrue(response.getStatusCode() == HttpStatus.FOUND);
 	}
@@ -65,11 +70,11 @@ public class AppUserControllerIntegrationTest implements TestExecutionListener, 
 	@Test
 	public void testGetUserNameSuccess() 
 	{	
-		HttpEntity<String> entity = new HttpEntity<>(null, headers);
+		HttpEntity<AppUser> entity = new HttpEntity<>(null, headers);
 		
-		ResponseEntity<String> response = restTemplate.exchange(
+		ResponseEntity<AppUser> response = restTemplate.exchange(
                 createURLWithPort("/api/usr/by-username/lweyrich"),
-                HttpMethod.GET, entity, String.class);
+                HttpMethod.GET, entity, AppUser.class);
 		
 		assertTrue(response.getStatusCode() == HttpStatus.FOUND);
 	}
@@ -89,6 +94,13 @@ public class AppUserControllerIntegrationTest implements TestExecutionListener, 
 		
 		assertTrue("Expected 'CREATED' got " + response.getStatusCode(), response.getStatusCode().value() == 201);
 
+		if(response.hasBody()) {
+			userService.deleteUser(response.getBody().getUserId());
+		}
+
+		if(response.hasBody() && response.getBody().getUserId() != null) {
+			userService.deleteUser(response.getBody().getUserId());
+		}
 	}
 	
 	private String createURLWithPort(String uri) {

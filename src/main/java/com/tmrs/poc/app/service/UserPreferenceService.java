@@ -73,4 +73,8 @@ public class UserPreferenceService {
 	public void deletePreference(Long userId, String preferenceKey) {
 		userPreferenceRepository.deleteById(new PreferenceId(userId, preferenceKey));
 	}
+
+	public void deletePreferenceByUserId(Long userId) {
+		userPreferenceRepository.deletePreferenceByUserId(userId);
+	}
 }

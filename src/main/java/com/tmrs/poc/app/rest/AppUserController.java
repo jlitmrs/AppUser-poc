@@ -194,14 +194,15 @@ public class AppUserController {
 	      @ApiResponse(responseCode = "404", content = { @Content(schema = @Schema(implementation = ApiError.class), mediaType = "application/json") }),
 		  @ApiResponse(responseCode = "500", content = { @Content(schema = @Schema(implementation = ApiError.class), mediaType = "application/json") }) })
 	@DeleteMapping()
-	public void deleteUser(Long userId) {
+	public ResponseEntity<String> deleteUser(Long userId) {
 		if(! appUserService.userExists(userId)) {
-			logger.info("-----  User with ID [ %s ] does not exist.  Coul not delete.  -----".formatted(userId));
+			logger.info("-----  User with ID [ %s ] does not exist.  Could not delete.  -----".formatted(userId));
 			throw new UserDoesNotExistException("User not found", null, userId);
 		}
 		
 		logger.info("-----  DELETE request for id[ %s ]  -----".formatted(userId));
 		appUserService.deleteUser(userId);
+		return ResponseEntity.ok("Deleted").status(HttpStatus.OK).build();
 	}
 	
 }

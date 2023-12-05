@@ -2,10 +2,12 @@ package com.tmrs.poc.app.service;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Optional;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 
+import com.google.common.collect.Lists;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,7 +71,7 @@ public class UserProfileService {
 		
 		return profileEntity;
 	}
-	
+
 	public UserProfile updateProfile(Long id, UserProfileModel profileModel) {
 		UserProfile profile = userProfileRepository.getReferenceById(id);
 		
@@ -170,5 +172,12 @@ public class UserProfileService {
 		}
 		
 		return userProfileRepository.save(profile);
+	}
+
+	public void deleteProfile(Long id) {
+		if(userProfileRepository.existsById(id)) {
+			Optional<UserProfile> profileOptional = userProfileRepository.getProfileById(id);
+            profileOptional.ifPresent(userProfile -> userProfileRepository.delete(userProfile));
+		}
 	}
 }

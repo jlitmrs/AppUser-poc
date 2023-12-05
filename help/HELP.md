@@ -67,6 +67,17 @@ To view the Spring Boot actuator monitoring
 * username = app_user
 * password = tmrs_next_gen
 
+### To Delete A User from The Database
+delete from user_role where user_id = {id};
+
+delete from user_preference where user_id = {id};
+
+delete from user_profile where user_id = {id};
+
+delete from app_usr where user_id = {id};
+
+SELECT * FROM APP_USR;
+
 ### Login info for seed users
 * User [ nextgenAdmin ] with password [ TMRS@dm1n ] : [ 6EHcy36TapgXHnN6fM7cjg== ] key [ I@mTh3W0rld ] salt [ salt_of_the_earth ] vi [ 0192837465564738 ]
 * User [ lweyrich ] with password [ I@mTh3Myth! ] : [ ktHO4WqlLQ612S7xKkFysA== ] key [ I@mTh3W0rld ] salt [ salt_of_the_earth ]vi [ 0192837465564738 ]
