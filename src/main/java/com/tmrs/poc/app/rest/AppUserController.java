@@ -64,12 +64,17 @@ public class AppUserController {
 	@GetMapping("/{id}")
 	public ResponseEntity<AppUserModel> getappUser(@PathVariable(name="id", required=true) Long id) {
 		logger.info("GET request for id["+id+"]");
-		AppUserModel user = appUserService.getUserById(id);
-		if(user != null) {
-			logger.info("User "+user.getUserName()+" for id["+id+"] found.");
-			return new ResponseEntity<AppUserModel>(user, HttpStatus.FOUND);
+		if(appUserService.userExists(id)) {
+			AppUserModel user = appUserService.getUserById(id);
+			if (user != null) {
+				logger.info("User " + user.getUserName() + " for id[" + id + "] found.");
+				return new ResponseEntity<AppUserModel>(user, HttpStatus.FOUND);
+			} else {
+				logger.info("User for id[" + id + "] was not found.");
+				throw new UserDoesNotExistException("User not found", null, id);
+			}
 		} else {
-			logger.info("User for id["+id+"] was not found.");
+			logger.info("User for id[" + id + "] was not found.");
 			throw new UserDoesNotExistException("User not found", null, id);
 		}
 		
@@ -136,7 +141,7 @@ public class AppUserController {
 	      @ApiResponse(responseCode = "201", content = { @Content(schema = @Schema(implementation = AppUser.class), mediaType = "application/json") }),
 	      @ApiResponse(responseCode = "400", content = { @Content(schema = @Schema(implementation = ApiError.class), mediaType = "application/json") }),
 		  @ApiResponse(responseCode = "500", content = { @Content(schema = @Schema(implementation = ApiError.class), mediaType = "application/json") }) })
-	@PostMapping()
+	@PostMapping("/create")
 	public ResponseEntity<AppUserModel> createUser(@Valid @RequestBody AppUserCreateModel model) {
 		if(appUserService.userNameExists(model.getUserName())) {
 			logger.info("-----  User with username [ %s ] already exists.  -----".formatted(model.getUserName()));
@@ -154,7 +159,8 @@ public class AppUserController {
 		
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(user.getUserId()).toUri();
 		
-		return ResponseEntity.status(HttpStatus.CREATED).location(location).build();
+		return ResponseEntity.created(location).body(user);
+		//return new ResponseEntity<AppUserModel> (user, HttpStatus.CREATED);
 	}
 	
 	 

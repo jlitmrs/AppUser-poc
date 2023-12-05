@@ -4,6 +4,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Date;
 
+import com.tmrs.poc.app.model.AppUserModel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.Test;
@@ -12,11 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.core.Ordered;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.test.context.TestContext;
 import org.springframework.test.context.TestExecutionListener;
 import org.springframework.test.context.TestExecutionListeners;
@@ -80,16 +77,18 @@ public class AppUserControllerIntegrationTest implements TestExecutionListener, 
 	@Test
 	public void testCreateUser() {
 		AppUserCreateModel model = AppUserCreateModel.builder()
-				.userName("nexttestuser").password("nexttestuser").isAdmin(false).active(true)
-				.profile(UserProfileModel.builder().firstName("NextTest").lastName("User").ssn("111-11-1111").birthDate(new Date()).build()).build();
+				.userName("nexttestuser").password("nexttestuser").isAdmin(false).active(true).isUserEditor(false)
+				.isAppUser(true).isUserViewer(true).profile(UserProfileModel.builder().firstName("NextTest")
+						.lastName("User").ssn("121-11-1212").birthDate(new Date()).build()).build();
 		
 		HttpEntity<AppUserCreateModel> entity = new HttpEntity<AppUserCreateModel>(model);
 		
-		ResponseEntity<String> response = restTemplate.exchange(
-                createURLWithPort("/api/usr/"),
-                HttpMethod.POST, entity, String.class);
+		ResponseEntity<AppUserModel> response = restTemplate.exchange(
+                createURLWithPort("/api/usr/create"),
+                HttpMethod.POST, entity, AppUserModel.class);
 		
-		assertTrue(response.getStatusCode() == HttpStatus.OK);
+		assertTrue("Expected 'CREATED' got " + response.getStatusCode(), response.getStatusCode().value() == 201);
+
 	}
 	
 	private String createURLWithPort(String uri) {
