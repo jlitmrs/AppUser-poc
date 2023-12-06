@@ -173,36 +173,36 @@ public class AppUserController {
 	      @ApiResponse(responseCode = "404", content = { @Content(schema = @Schema(implementation = ApiError.class), mediaType = "application/json") }),
 		  @ApiResponse(responseCode = "500", content = { @Content(schema = @Schema(implementation = ApiError.class), mediaType = "application/json") }) })
 	@PatchMapping()
-	public AppUser updateUser(@Valid @RequestBody AppUserUpdateModel model) {
+	public ResponseEntity<AppUserSimpleModel> updateUser(@Valid @RequestBody AppUserUpdateModel model) {
 		if(! appUserService.userExists(model.getUserId())) {
 			logger.info("-----  User with ID [ %s ] does not exist  -----".formatted(model.getUserId()));
 			throw new UserDoesNotExistException("User not found", null, model.getUserId());
 		}
 		
-		AppUser user = appUserService.updateUser(model);
+		AppUserSimpleModel user = appUserService.updateUser(model);
 		logger.info("-----  Updating user with username [ %s ] and ID  %s ]  -----".formatted(user.getUserName(), user.getUserId()));
-		return user;
+		return ResponseEntity.status(HttpStatus.OK).body(user);
 	}
 	
 	 
 	 @Operation(
-		summary = "Deletes a appUsers in the database",
-	    description = "deletes a appUsers in the database.")
+		summary = "Sets the AppUser activity in the database.",
+	    description = "Sets the AppUser activity in the database.")
 	 @ApiResponses({
-	      @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = AppUser.class), mediaType = "application/json") }),
-	      @ApiResponse(responseCode = "400", content = { @Content(schema = @Schema(implementation = ApiError.class), mediaType = "application/json") }),
-	      @ApiResponse(responseCode = "404", content = { @Content(schema = @Schema(implementation = ApiError.class), mediaType = "application/json") }),
-		  @ApiResponse(responseCode = "500", content = { @Content(schema = @Schema(implementation = ApiError.class), mediaType = "application/json") }) })
-	@DeleteMapping()
-	public ResponseEntity<String> deleteUser(Long userId) {
+	      @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = String.class), mediaType = "application/json") }),
+	      @ApiResponse(responseCode = "400", content = { @Content(schema = @Schema(implementation = String.class), mediaType = "application/json") }),
+	      @ApiResponse(responseCode = "404", content = { @Content(schema = @Schema(implementation = String.class), mediaType = "application/json") }),
+		  @ApiResponse(responseCode = "500", content = { @Content(schema = @Schema(implementation = String.class), mediaType = "application/json") }) })
+	@PatchMapping("activity/{userId}/{active}")
+	public ResponseEntity<String> deleteUser(@PathVariable("userId") Long userId, @PathVariable("active") Boolean active) {
 		if(! appUserService.userExists(userId)) {
 			logger.info("-----  User with ID [ %s ] does not exist.  Could not delete.  -----".formatted(userId));
 			throw new UserDoesNotExistException("User not found", null, userId);
 		}
 		
-		logger.info("-----  DELETE request for id[ %s ]  -----".formatted(userId));
-		appUserService.deleteUser(userId);
-		return ResponseEntity.ok("Deleted").status(HttpStatus.OK).build();
+		logger.info("-----  Changed activity request for id[ %s ] to active[ %s ] -----".formatted(userId, active));
+		appUserService.setUserActivity(userId, active);
+		return ResponseEntity.ok("User id["+userId+" is active["+active+"]").status(HttpStatus.OK).build();
 	}
 	
 }

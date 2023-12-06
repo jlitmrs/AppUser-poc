@@ -274,7 +274,7 @@ public class AppUserService {
 	}
 	
 	
-	public AppUser updateUser(AppUserUpdateModel model) {
+	public AppUserSimpleModel updateUser(AppUserUpdateModel model) {
 		AppUser user = appUserRepository.getUserById(model.getUserId());
 		
 		if(user == null) {
@@ -294,7 +294,9 @@ public class AppUserService {
 			user.setProfile(profile);
 		}
 		
-		return appUserRepository.save(user);
+		user = appUserRepository.save(user);
+				
+		return appUserConverter.toSimpleModel(user);
 	}
 	
 	

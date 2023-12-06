@@ -5,6 +5,7 @@ import com.tmrs.poc.app.jpa.entity.enumeration.Priority;
 import com.tmrs.poc.app.jpa.entity.enumeration.Status;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.util.Date;
 
@@ -39,8 +40,14 @@ public class TaskList {
     @Column(name="task_owner", length=16, columnDefinition="varchar(16)")
     private String taskOwner;
 
-    @Column(name="date_completed", length=16, columnDefinition="varchar(16)")
+    @Temporal(TemporalType.DATE)
+    @Column(name="date_completed", columnDefinition="datetime")
     private Date dateCompleted;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @CreationTimestamp
+    @Column(name="date_created", columnDefinition="datetime default CURRENT_TIMESTAMP")
+    private Date dateCreated;
 
     @Enumerated(EnumType.STRING)
     @Column(name="priority", length=12, columnDefinition="varchar(12) DEFAULT 'NONE'")
