@@ -12,7 +12,7 @@
 	<groupId>com.tmrs.poc</groupId>
 	<artifactId>app-poc</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>nextgen-poc</name>
+	<name>app-poc</name>
 	<description>Demo project for Spring Boot application</description>
 	<properties>
 		<java.version>17</java.version>
