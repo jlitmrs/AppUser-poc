@@ -1,7 +1,7 @@
 # Getting Started
 
 ### HELP
-* [general help](http://localhost:8080/api/help)
+* general help
 * [license](http://localhost:8080/api/help/license)
 * [survey](http://localhost:8080/api/help/survey)
 

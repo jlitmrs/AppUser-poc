@@ -1,6 +1,6 @@
 ### HELP
 * [general help](http://localhost:8080/api/help)
-* [license](http://localhost:8080/api/help/license)
+* license
 * [survey](http://localhost:8080/api/help/survey)
 
 MIT License

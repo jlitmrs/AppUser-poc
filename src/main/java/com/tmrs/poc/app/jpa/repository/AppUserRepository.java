@@ -3,6 +3,7 @@ package com.tmrs.poc.app.jpa.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -24,4 +25,11 @@ public interface AppUserRepository extends JpaRepository<AppUser, Long> {
 	
 	@Query("SELECT COUNT(usr.userName) FROM AppUser usr WHERE usr.userName = :userName")
 	public Integer doesUsernameExist(@Param("userName") String username);
+
+	@Query("SELECT au.passwordHash from AppUser au WHERE au.userId = :userId")
+	public String getCurrentPasswordHash(@Param("userId") Long userId);
+
+	@Modifying
+	@Query("UPDATE AppUser au SET au.passwordHash = :newPassword WHERE au.userId = :userId")
+	public void changePassword(@Param("userId") Long userId, @Param("newPassword") String newPassword);
 }

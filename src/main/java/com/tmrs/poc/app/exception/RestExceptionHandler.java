@@ -40,12 +40,12 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 		return handleExceptionInternal(ex, apiError, headers, apiError.getStatus(), request);
 	}
 
-	protected ResponseEntity<Object> handleMissingServletRequestParameter(MissingServletRequestParameterException ex,
+	protected ResponseEntity<ApiError> handleMissingServletRequestParameter(MissingServletRequestParameterException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
 		String error = ex.getParameterName() + " parameter is missing";
 
 		ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), ex, error);
-		return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
+		return new ResponseEntity<ApiError>(apiError, new HttpHeaders(), apiError.getStatus());
 	}
 	
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -60,9 +60,9 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler({UserDoesNotExistException.class})
 	@ResponseStatus(HttpStatus.NOT_FOUND)
-	public ResponseEntity<Object> userNotFoundException(Exception ex, WebRequest request) {
+	public ResponseEntity<ApiError> userNotFoundException(Exception ex, WebRequest request) {
 		ApiError apiError = new ApiError(HttpStatus.NOT_FOUND, "User does not exist", ex, ex.getMessage());
-		return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
+		return new ResponseEntity<ApiError>(apiError, new HttpHeaders(), apiError.getStatus());
 	}
 	
 	@ExceptionHandler(ConstraintViolationException.class)
@@ -74,48 +74,55 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 	
 	@ExceptionHandler({UserAlreadyExistException.class})
 	@ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
-	public ResponseEntity<Object> userAlreadyExistsException(Exception ex, WebRequest request) {
+	public ResponseEntity<ApiError> userAlreadyExistsException(Exception ex, WebRequest request) {
 		ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, "User Already Exists.", ex, ex.getMessage());
-		return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
+		return new ResponseEntity<ApiError>(apiError, new HttpHeaders(), apiError.getStatus());
 	}
 	
 	
 	@ExceptionHandler({PreferenceValueNotFoundException.class})
 	@ResponseStatus(HttpStatus.NOT_FOUND)
-	public ResponseEntity<Object> preferenceValueNotFoundException(Exception ex, WebRequest request) {
+	public ResponseEntity<ApiError> preferenceValueNotFoundException(Exception ex, WebRequest request) {
 		ApiError apiError = new ApiError(HttpStatus.NOT_FOUND, "PreferenceValueLookup not found.", ex, ex.getMessage());
-		return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
+		return new ResponseEntity<ApiError>(apiError, new HttpHeaders(), apiError.getStatus());
 	}
 	
 	@ExceptionHandler({PreferenceKeyNotFoundException.class})
 	@ResponseStatus(HttpStatus.NOT_FOUND)
-	public ResponseEntity<Object> preferenceKeyNotFoundException(Exception ex, WebRequest request) {
+	public ResponseEntity<ApiError> preferenceKeyNotFoundException(Exception ex, WebRequest request) {
 		ApiError apiError = new ApiError(HttpStatus.NOT_FOUND, "PreferenceKeyLookup not found.", ex, ex.getMessage());
-		return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
+		return new ResponseEntity<ApiError>(apiError, new HttpHeaders(), apiError.getStatus());
 	}
 
 
 	@ExceptionHandler({FieldValueInvalidException.class})
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public ResponseEntity<Object> fieldValueInvalidException(Exception ex, WebRequest request) {
+	public ResponseEntity<ApiError> fieldValueInvalidException(Exception ex, WebRequest request) {
 		ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, "Invalid Field Value.", ex, ex.getMessage());
-		return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
+		return new ResponseEntity<ApiError>(apiError, new HttpHeaders(), apiError.getStatus());
 	}
 	
 
 	@ExceptionHandler({LoginException.class})
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public ResponseEntity<Object> loginException(Exception ex, WebRequest request) {
+	public ResponseEntity<ApiError> loginException(Exception ex, WebRequest request) {
 		ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, "Login Failed.", ex, ex.getMessage());
-		return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
+		return new ResponseEntity<ApiError>(apiError, new HttpHeaders(), apiError.getStatus());
 	}
 	
 	
 	@ExceptionHandler({UserNotCreatedException.class})
-	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	public ResponseEntity<Object> userNotCreatedException(Exception ex, WebRequest request) {
-		ApiError apiError = new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, "Use was not created.", ex, ex.getMessage());
-		return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public ResponseEntity<ApiError> userNotCreatedException(Exception ex, WebRequest request) {
+		ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, "Use was not created.", ex, ex.getMessage());
+		return new ResponseEntity<ApiError>(apiError, new HttpHeaders(), apiError.getStatus());
+	}
+
+	@ExceptionHandler({ChangePasswordException.class})
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public ResponseEntity<ApiError> passwordChangeException(ChangePasswordException ex, WebRequest request) {
+		ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, "Password was not changed.", ex, ex.getMessage());
+		return new ResponseEntity<ApiError>(apiError, new HttpHeaders(), apiError.getStatus());
 	}
 //	
 //	@ExceptionHandler({BadCredentialsException.class})

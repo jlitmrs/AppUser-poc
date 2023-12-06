@@ -3,6 +3,8 @@ package com.tmrs.poc.app.rest;
 import java.net.URI;
 import java.util.List;
 
+import com.tmrs.poc.app.exception.ChangePasswordException;
+import com.tmrs.poc.app.model.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +25,6 @@ import com.tmrs.poc.app.exception.ApiError;
 import com.tmrs.poc.app.exception.UserAlreadyExistException;
 import com.tmrs.poc.app.exception.UserDoesNotExistException;
 import com.tmrs.poc.app.jpa.entity.AppUser;
-import com.tmrs.poc.app.model.AppUserCreateModel;
-import com.tmrs.poc.app.model.AppUserModel;
-import com.tmrs.poc.app.model.AppUserSimpleModel;
-import com.tmrs.poc.app.model.AppUserUpdateModel;
 import com.tmrs.poc.app.service.AppUserService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -189,10 +187,10 @@ public class AppUserController {
 		summary = "Sets the AppUser activity in the database.",
 	    description = "Sets the AppUser activity in the database.")
 	 @ApiResponses({
-	      @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = String.class), mediaType = "application/json") }),
-	      @ApiResponse(responseCode = "400", content = { @Content(schema = @Schema(implementation = String.class), mediaType = "application/json") }),
-	      @ApiResponse(responseCode = "404", content = { @Content(schema = @Schema(implementation = String.class), mediaType = "application/json") }),
-		  @ApiResponse(responseCode = "500", content = { @Content(schema = @Schema(implementation = String.class), mediaType = "application/json") }) })
+	      @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = String.class), mediaType = "text/plain") }),
+	      @ApiResponse(responseCode = "400", content = { @Content(schema = @Schema(implementation = ApiError.class), mediaType = "application/json") }),
+	      @ApiResponse(responseCode = "404", content = { @Content(schema = @Schema(implementation = ApiError.class), mediaType = "application/json") }),
+		  @ApiResponse(responseCode = "500", content = { @Content(schema = @Schema(implementation = ApiError.class), mediaType = "application/json") }) })
 	@PatchMapping("activity/{userId}/{active}")
 	public ResponseEntity<String> deleteUser(@PathVariable("userId") Long userId, @PathVariable("active") Boolean active) {
 		if(! appUserService.userExists(userId)) {
@@ -202,7 +200,31 @@ public class AppUserController {
 		
 		logger.info("-----  Changed activity request for id[ %s ] to active[ %s ] -----".formatted(userId, active));
 		appUserService.setUserActivity(userId, active);
-		return ResponseEntity.ok("User id["+userId+" is active["+active+"]").status(HttpStatus.OK).build();
+		return ResponseEntity.status(HttpStatus.OK).body("User id["+userId+"] is active["+active+"]");
+	}
+
+
+	@Operation(
+			summary = "Change users password.",
+			description = "Change users password.")
+	@ApiResponses({
+			@ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = String.class), mediaType = "text/plain") }),
+			@ApiResponse(responseCode = "400", content = { @Content(schema = @Schema(implementation = String.class), mediaType = "text/plain") }),
+			@ApiResponse(responseCode = "404", content = { @Content(schema = @Schema(implementation = ApiError.class), mediaType = "application/json") }),
+			@ApiResponse(responseCode = "500", content = { @Content(schema = @Schema(implementation = ApiError.class), mediaType = "application/json") }) })
+	@PatchMapping("/change-password")
+	public ResponseEntity<String> changePassword(@Valid @RequestBody ChangePasswordModel model) {
+		logger.info("Password Change request by userId[ %s ]", model.getUserId());
+		boolean passwordChange = appUserService.changePassword(model);
+
+
+		if(passwordChange) {
+			logger.info("Password changed for userId[ %s ] was successful", model.getUserId());
+			return new ResponseEntity<String>("Password was successfully changed", HttpStatus.OK);
+		} else {
+			logger.info("Password changed for userId[ %s ] failed", model.getUserId());
+			return new ResponseEntity<String>("Password was NOT changed", HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 }

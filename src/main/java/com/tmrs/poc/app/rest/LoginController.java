@@ -154,7 +154,7 @@ public class LoginController {
 			description = "Log off Application appPoc.")
 	@ApiResponses({
 		@ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = String.class), mediaType = "text/plain") }),
-		@ApiResponse(responseCode = "404", content = { @Content(schema = @Schema(implementation = String.class), mediaType = "text/plain") }),
+		@ApiResponse(responseCode = "404", content = { @Content(schema = @Schema(implementation = ApiError.class), mediaType = "application/json") }),
 		@ApiResponse(responseCode = "500", content = { @Content(schema = @Schema(implementation = ApiError.class), mediaType = "application/json") }) })
 	@GetMapping("/logout")
 	public ResponseEntity<String> logout(@RequestHeader("userName") String userName) {

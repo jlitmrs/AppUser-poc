@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class AppUserSimpleModel {
 	private Long userId;
 	private String userName;
-	private String passwordHash;
+	//private String passwordHash;
 	private Boolean active;
 	private Boolean isAdmin;
 	

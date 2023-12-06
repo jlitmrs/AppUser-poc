@@ -1,14 +1,22 @@
 package com.tmrs.poc.app.service;
 
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 
+import com.tmrs.poc.app.exception.ChangePasswordException;
 import com.tmrs.poc.app.model.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -307,6 +315,35 @@ public class AppUserService {
 	
 	public Boolean userNameExists(String username) {
 		return appUserRepository.doesUsernameExist(username) > 0;
+	}
+
+	public boolean changePassword(ChangePasswordModel model) {
+		if(appUserRepository.existsById(model.getUserId())) {
+			String currentPasswordHash = appUserRepository.getCurrentPasswordHash(model.getUserId());
+
+			if(currentPasswordHash != null) {
+
+				try {
+					SecretKey key = passwordUtil.getKeyFromPassword(passwordKey, salt);
+					IvParameterSpec iv = new IvParameterSpec(passwordIv.getBytes());
+					if(model.getOldPassword() != null && !model.getOldPassword().equals(model.getNewPassword())) {
+						String encodedPassword = passwordUtil.encrypt(model.getNewPassword(), key, iv);
+						appUserRepository.changePassword(model.getUserId(), encodedPassword);
+						historyService.createHistoryRecord(
+								new ApplicationHistory("app_usr", "passwordHash", model.getUserId(), model.getUserId(),
+										ChangeType.UPDATE, "*******", "*******", "AdminUser"));
+					} else {
+						throw new ChangePasswordException("passwords match.", model.getUserId(), model.getNewPassword());
+					}
+				} catch (NoSuchPaddingException | NoSuchAlgorithmException | InvalidAlgorithmParameterException |
+                         InvalidKeyException | BadPaddingException | IllegalBlockSizeException |
+                         InvalidKeySpecException e) {
+					throw new ChangePasswordException(e, model.getUserId(), model.getNewPassword());
+				}
+                return true;
+			}
+		}
+		return false;
 	}
 	
 }

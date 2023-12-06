@@ -1,7 +1,7 @@
 ### HELP
 * [general help](http://localhost:8080/api/help)
 * [license](http://localhost:8080/api/help/license)
-* [survey](http://localhost:8080/api/help/survey)
+* survey
 
 # Survey Requirements
 Add a survey feature to the POC.  Here are the suggested requirements:
